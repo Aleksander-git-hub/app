@@ -6,6 +6,7 @@ import com.cascade.app.entity.Project;
 import com.cascade.app.exception.ResourceNotFoundException;
 import com.cascade.app.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping(value = "/api")
 public class ProjectController
 {
     @Autowired
@@ -22,19 +23,20 @@ public class ProjectController
 
     // get projects
     @GetMapping("/projects")
-    public List<Project> getAllProjects() {
+    public StringBuilder getAllProjects() {
         return projectService.getAllProjects();
     }
 
     // get project by id
-    @GetMapping("/projects/{id}")
+    @GetMapping(value = "/projects/{id}")
     public Project getProjectById(@PathVariable int id) throws ResourceNotFoundException {
         return projectService.getProjectById(id);
     }
 
     // save project
-    @PostMapping("/projects")
-    public Project saveProject(@RequestBody Project project) {
+//    @PostMapping("/projects")
+    @RequestMapping(value = "/projects", method = RequestMethod.POST)
+    public Project saveProject(Project project) {
         List<Geometry> geometries = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             Geometry geometry = new Geometry();
