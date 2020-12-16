@@ -34,7 +34,6 @@ public class ProjectController
     }
 
     // save project
-//    @PostMapping("/projects")
     @RequestMapping(value = "/projects", method = RequestMethod.POST)
     public Project saveProject(Project project) {
         List<Geometry> geometries = new ArrayList<>();
