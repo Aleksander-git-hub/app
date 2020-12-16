@@ -23,7 +23,7 @@ public class ProjectController
 
     // get projects
     @GetMapping("/projects")
-    public StringBuilder getAllProjects() {
+    public List<StringBuilder> getAllProjects() {
         return projectService.getAllProjects();
     }
 

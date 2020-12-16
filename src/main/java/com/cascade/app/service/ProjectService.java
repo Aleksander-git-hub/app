@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,14 +24,18 @@ public class ProjectService
     @Autowired
     private AttributeRepository attributeRepository;
 
-    public StringBuilder getAllProjects() {
+    // get all projects
+    public List<StringBuilder> getAllProjects() {
         List<Project> projects = projectRepository.findAll();
+        List<StringBuilder> stringBuilders = new ArrayList<>();
         StringBuilder stringBuilder = new StringBuilder();
         for (Project project : projects) {
-            stringBuilder.append(project.getName()).append(" ")
-                    .append(project.getId()).append("\n");
+            stringBuilder.append("{").append("id:").append(project.getId()).
+                    append(", ").append("name=").append(project.getName()).
+                    append("}");
         }
-        return stringBuilder;
+        stringBuilders.add(stringBuilder);
+        return stringBuilders;
     }
 
     // get project by id
