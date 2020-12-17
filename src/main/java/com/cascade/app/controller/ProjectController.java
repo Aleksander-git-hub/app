@@ -36,7 +36,7 @@ public class ProjectController
     @RequestMapping(value = "/projects", method = RequestMethod.POST)
     public Project saveProject(Project project) {
         List<Geometry> geometries = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10000; i++) {
             Geometry geometry = new Geometry();
             geometry.setName("Geom" + i);
             geometries.add(geometry);
@@ -44,7 +44,7 @@ public class ProjectController
         project.setGeometries(geometries);
 
         List<Attribute> attributes = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10000; i++) {
             Attribute attribute = new Attribute();
             attribute.setName("Attr" + i);
             attributes.add(attribute);
