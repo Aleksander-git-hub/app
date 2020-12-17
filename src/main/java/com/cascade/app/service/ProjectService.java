@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +19,11 @@ public class ProjectService
     @Autowired
     private ProjectRepository projectRepository;
 
-    @Autowired
+    /*@Autowired
     private GeometryRepository geometryRepository;
 
     @Autowired
-    private AttributeRepository attributeRepository;
+    private AttributeRepository attributeRepository;*/
 
     // get all projects
     public List<StringBuilder> getAllProjects() {
@@ -39,9 +40,14 @@ public class ProjectService
     }
 
     // get project by id
-    public Project getProjectById(int id) throws ResourceNotFoundException {
-        return projectRepository.findById(id)
+    public StringBuilder getProjectById(int id) throws ResourceNotFoundException {
+        Project project = projectRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Project not found for this id :: " + id));
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("{").append("id:").append(project.getId()).
+                append(", ").append("name=").append(project.getName()).
+                append("}");
+        return stringBuilder;
     }
 
     // save project
@@ -62,7 +68,18 @@ public class ProjectService
             throws ResourceNotFoundException {
         Project existingProject = projectRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Project not found for this id :: " + id));
-        existingProject.setName(projectName.getName());
+        try (Reader reader = new FileReader("D:/params.txt")) // path to the file
+        {
+            char[] buffer = new char[10];
+            int result = reader.read(buffer);
+            while (result != -1) {
+                result = reader.read(buffer);
+            }
+            String nameOfProject = String.valueOf(buffer);
+            existingProject.setName(nameOfProject);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return ResponseEntity.ok(projectRepository.save(existingProject));
     }
 }

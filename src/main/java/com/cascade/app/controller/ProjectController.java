@@ -6,11 +6,11 @@ import com.cascade.app.entity.Project;
 import com.cascade.app.exception.ResourceNotFoundException;
 import com.cascade.app.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class ProjectController
 
     // get project by id
     @GetMapping(value = "/projects/{id}")
-    public Project getProjectById(@PathVariable int id) throws ResourceNotFoundException {
+    public StringBuilder getProjectById(@PathVariable int id) throws ResourceNotFoundException {
         return projectService.getProjectById(id);
     }
 
@@ -64,8 +64,7 @@ public class ProjectController
     // update project by id
     @PutMapping("/projects/{id}")
     public ResponseEntity<Project> updateProjectById(@PathVariable(value = "id") int id,
-            @Validated @RequestBody Project project) throws ResourceNotFoundException {
+            /*@Validated @RequestBody*/ Project project) throws ResourceNotFoundException {
         return projectService.updateProjectById(id, project);
     }
-
 }
